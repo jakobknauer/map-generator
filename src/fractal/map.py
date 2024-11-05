@@ -1,0 +1,64 @@
+from dataclasses import dataclass
+from enum import Enum
+
+
+class Color(Enum):
+    SEA = 0
+    LAND = 1
+
+
+@dataclass
+class Tile:
+    x: int
+    y: int
+    color: Color
+    width: int = 1
+    height: int = 1
+
+
+class Map:
+    def __init__(self) -> None:
+        self._tiles: dict[tuple[int, int], Tile] = {}
+
+    def add_tile(self, tile: Tile) -> None:
+        self._tiles[tile.x, tile.y] = tile
+
+    def get_tiles(self) -> list[Tile]:
+        return list(self._tiles.values())
+
+    def set_tiles(self, tiles: list[Tile]) -> None:
+        self._tiles = {(tile.x, tile.y): tile for tile in tiles}
+
+    def split(self, n: int) -> None:
+        self._tiles = {
+            (new_x := tile.x * n + x, new_y := tile.y * n + y): Tile(
+                x=new_x, y=new_y, color=tile.color
+            )
+            for tile in self._tiles.values()
+            for x in range(n)
+            for y in range(n)
+        }
+
+    def get_tile(self, x: int, y: int) -> Tile:
+        return self._tiles[(x, y)]
+
+    def get_neighbors(self, x: int, y: int) -> list[Tile]:
+        candidates = (
+            self._find_tile(x - 1, y),
+            self._find_tile(x + 1, y),
+            self._find_tile(x, y - 1),
+            self._find_tile(x, y + 1),
+        )
+        return [c for c in candidates if c]
+
+    def _find_tile(self, x: int, y: int) -> Tile | None:
+        return self._tiles.get((x, y), None)
+
+    def get_width(self) -> int:
+        return max(x for (x, _) in self._tiles)
+
+    def get_height(self) -> int:
+        return max(y for (_, y) in self._tiles)
+
+    def get_tile_count(self) -> int:
+        return len(self._tiles)
