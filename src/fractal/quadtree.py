@@ -10,25 +10,44 @@ class _Node:
         self._width = width
         self._height = height
         self._map = map_
-        self._uniform_color: Color | None = None
-        self._uniform_color_set = False
 
-        self._children: list["_Node"]
+        self._uniform_color: Color | None = None
+        self._children: tuple["_Node", ...]
+
+        self._set_uniform_color()
+        if not self._uniform_color:
+            self._init_children()
+
+    def _set_uniform_color(self) -> None:
+        first_color: Color | None = self._map.get_tile(self._x, self._y).color
+
+        for x in range(self._x, self._x + self._width):
+            for y in range(self._y, self._y + self._height):
+                c = self._map.get_tile(x, y).color
+                if c != first_color:
+                    self._uniform_color = None
+                    return
+
+        self._uniform_color = first_color
+
+    def _init_children(self) -> None:
+        x, y, width, height = self._x, self._y, self._width, self._height
+        map_ = self._map
 
         if width == 1 and height == 1:
-            self._children = []
+            self._children = tuple()
         elif width == 1:
-            self._children = [
+            self._children = (
                 _Node(x, y, width, floor(height / 2), map_),
                 _Node(x, y + floor(height / 2), width, ceil(height / 2), map_),
-            ]
+            )
         elif height == 1:
-            self._children = [
+            self._children = (
                 _Node(x, y, floor(width / 2), height, map_),
                 _Node(x + floor(width / 2), y, ceil(width / 2), height, map_),
-            ]
+            )
         else:
-            self._children = [
+            self._children = (
                 _Node(x, y, floor(width / 2), floor(height / 2), map_),
                 _Node(
                     x + floor(width / 2), y, ceil(width / 2), floor(height / 2), map_
@@ -43,29 +62,13 @@ class _Node:
                     ceil(height / 2),
                     map_,
                 ),
-            ]
-
-    def get_uniform_color(self) -> Color | None:
-        if self._uniform_color_set:
-            return self._uniform_color
-
-        if len(self._children) == 0:
-            self._uniform_color = self._map.get_tile(self._x, self._y).color
-        else:
-            all_colors: set[Color | None] = set(
-                child.get_uniform_color() for child in self._children
             )
-            if len(all_colors) == 1:
-                self._uniform_color = next(iter(all_colors))
-            else:
-                self._uniform_color = None
-
-        return self._uniform_color
 
     def generate_tiles(self, output: list[Tile]) -> None:
-        uniform_color = self.get_uniform_color()
-        if uniform_color:
-            tile = Tile(self._x, self._y, uniform_color, self._width, self._height)
+        if self._uniform_color:
+            tile = Tile(
+                self._x, self._y, self._uniform_color, self._width, self._height
+            )
             output.append(tile)
         else:
             for child in self._children:

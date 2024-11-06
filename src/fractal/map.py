@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Iterable
 
 
 class Color(Enum):
@@ -23,11 +24,11 @@ class Map:
     def add_tile(self, tile: Tile) -> None:
         self._tiles[tile.x, tile.y] = tile
 
-    def get_tiles(self) -> list[Tile]:
-        return list(self._tiles.values())
+    def get_tiles(self) -> Iterable[Tile]:
+        return self._tiles.values()
 
-    def set_tiles(self, tiles: list[Tile]) -> None:
-        self._tiles = {(tile.x, tile.y): tile for tile in tiles}
+    def set_tiles(self, tiles: dict[tuple[int, int], Tile]) -> None:
+        self._tiles = tiles
 
     def split(self, n: int) -> None:
         self._tiles = {

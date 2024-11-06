@@ -1,4 +1,3 @@
-import dataclasses
 from random import Random
 
 from fractal.map import Color, Map, Tile
@@ -12,13 +11,12 @@ class Strategy:
         self._max_prob = 1.0
 
     def iterate(self) -> None:
-        old_tiles = self._map.get_tiles()
-        self._min_prob = 1.0 / len(old_tiles)
-        self._max_prob = 1 - (1.0 / len(old_tiles))
+        self._min_prob = 1.0 / self._map.get_tile_count()
+        self._max_prob = 1 - (1.0 / self._map.get_tile_count())
 
-        new_tiles: list[Tile] = []
+        new_tiles: dict[tuple[int, int], Tile] = {}
 
-        for tile in old_tiles:
+        for tile in self._map.get_tiles():
             neighbors = self._map.get_neighbors(tile.x, tile.y)
 
             if len(neighbors) == 0:
@@ -39,7 +37,8 @@ class Strategy:
             else:
                 new_color = Color.SEA
 
-            # new_tiles.append(dataclasses.replace(tile, color=new_color))
-            new_tiles.append(Tile(tile.x, tile.y, new_color, tile.width, tile.height))
+            new_tiles[(tile.x, tile.y)] = Tile(
+                tile.x, tile.y, new_color, tile.width, tile.height
+            )
 
         self._map.set_tiles(new_tiles)
