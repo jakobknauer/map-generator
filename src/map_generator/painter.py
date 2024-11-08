@@ -1,25 +1,32 @@
 from random import Random
+from typing import Any
 
 from map_generator.map import Color, Map, Tile
 
 
 class Painter:
-    def __init__(self, map_: Map) -> None:
-        self._map: Map = map_
-        self._random: Random = Random()
+    def __init__(
+        self,
+        *,
+        inertia: float = 1.0,
+        islands_per_iteration: float = 0.0,
+        lakes_per_iteration: float = 0.0,
+        seed: Any = None
+    ) -> None:
+        self._random: Random = Random(seed)
 
-        self._inertia: float = 0.6
-        self._islands_per_iteration: float = 1.0
-        self._lakes_per_iteration: float = 1.0
+        self._inertia: float = inertia
+        self._islands_per_iteration: float = islands_per_iteration
+        self._lakes_per_iteration: float = lakes_per_iteration
 
-    def paint(self) -> None:
-        min_prob = self._islands_per_iteration / self._map.get_tile_count()
-        max_prob = 1 - (self._lakes_per_iteration / self._map.get_tile_count())
+    def paint(self, map_: Map) -> None:
+        min_prob = self._islands_per_iteration / map_.get_tile_count()
+        max_prob = 1 - (self._lakes_per_iteration / map_.get_tile_count())
 
         new_tiles: dict[tuple[int, int], Tile] = {}
 
-        for tile in self._map.get_tiles():
-            neighbors = self._map.get_neighbors(tile.x, tile.y)
+        for tile in map_.get_tiles():
+            neighbors = map_.get_neighbors(tile.x, tile.y)
 
             p_land = 0.5
             p_land += self._inertia * ((1 if tile.color == Color.LAND else 0) - 0.5)
@@ -43,4 +50,4 @@ class Painter:
                 tile.x, tile.y, new_color, tile.width, tile.height
             )
 
-        self._map.set_tiles(new_tiles)
+        map_.set_tiles(new_tiles)
