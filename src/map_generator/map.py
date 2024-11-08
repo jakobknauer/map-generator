@@ -56,10 +56,10 @@ class Map:
         return self._tiles.get((x, y), None)
 
     def get_width(self) -> int:
-        return max(x for (x, _) in self._tiles)
+        return max(x for (x, _) in self._tiles) - min(x for (x, _) in self._tiles) + 1
 
     def get_height(self) -> int:
-        return max(y for (_, y) in self._tiles)
+        return max(y for (_, y) in self._tiles) - min(y for (_, y) in self._tiles) + 1
 
     def get_tile_count(self) -> int:
         return len(self._tiles)

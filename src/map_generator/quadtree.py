@@ -77,9 +77,7 @@ class _Node:
 
 class Quadtree:
     def __init__(self, map_: Map):
-        self._root: _Node = _Node(
-            0, 0, map_.get_width() + 1, map_.get_height() + 1, map_
-        )
+        self._root: _Node = _Node(0, 0, map_.get_width(), map_.get_height(), map_)
 
     def get_tiles(self) -> list[Tile]:
         output: list[Tile] = []
