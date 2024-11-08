@@ -21,6 +21,14 @@ class Map:
     def __init__(self) -> None:
         self._tiles: dict[tuple[int, int], Tile] = {}
 
+    @staticmethod
+    def build_monocolored(color: Color, *, width: int, height: int) -> "Map":
+        map_ = Map()
+        for x in range(width):
+            for y in range(height):
+                map_.add_tile(Tile(x, y, color))
+        return map_
+
     def add_tile(self, tile: Tile) -> None:
         self._tiles[tile.x, tile.y] = tile
 
