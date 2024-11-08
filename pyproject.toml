@@ -1,5 +1,5 @@
 [project]
-name = "fractal"
+name = "map_generator"
 version = "0.0.1"
 authors = [ { name = "Jakob Knauer" } ]
 dependencies = ["svg.py==1.4.3"]
@@ -9,4 +9,4 @@ requires = ["setuptools>=69.0"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-fractal = "fractal.cli:main_cli"
+mapgen = "map_generator.cli:main_cli"

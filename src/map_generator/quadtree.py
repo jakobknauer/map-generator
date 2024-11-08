@@ -1,6 +1,6 @@
 from math import ceil, floor
 
-from fractal.map import Color, Map, Tile
+from map_generator.map import Color, Map, Tile
 
 
 class _Node:

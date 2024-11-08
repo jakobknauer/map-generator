@@ -1,23 +1,28 @@
 from random import Random
 
-from fractal.map import Color, Map, Tile
+from map_generator.map import Color, Map, Tile
 
 
-class Strategy:
+class Painter:
     def __init__(self, map_: Map) -> None:
         self._map: Map = map_
         self._random: Random = Random()
-        self._min_prob = 0.0
-        self._max_prob = 1.0
 
-    def iterate(self) -> None:
-        self._min_prob = 1.0 / self._map.get_tile_count()
-        self._max_prob = 1 - (1.0 / self._map.get_tile_count())
+        self._inertia: float = 0.6
+        self._islands_per_iteration: float = 1.0
+        self._lakes_per_iteration: float = 1.0
+
+    def paint(self) -> None:
+        min_prob = self._islands_per_iteration / self._map.get_tile_count()
+        max_prob = 1 - (self._lakes_per_iteration / self._map.get_tile_count())
 
         new_tiles: dict[tuple[int, int], Tile] = {}
 
         for tile in self._map.get_tiles():
             neighbors = self._map.get_neighbors(tile.x, tile.y)
+
+            p_land = 0.5
+            p_land += self._inertia * ((1 if tile.color == Color.LAND else 0) - 0.5)
 
             if len(neighbors) == 0:
                 land_proportion = 0.5
@@ -25,14 +30,11 @@ class Strategy:
                 land_proportion = sum(
                     1 for n in neighbors if n.color == Color.LAND
                 ) / float(len(neighbors))
+            p_land += (land_proportion - 0.5) * (1 - self._inertia)
 
-            land_probability = 0.7 if tile.color == Color.LAND else 0.3
-            land_probability += (land_proportion - 0.5) * 0.8
-            land_probability = max(
-                self._min_prob, min(land_probability, self._max_prob)
-            )
+            p_land = max(min_prob, min(p_land, max_prob))
 
-            if self._random.random() < land_probability:
+            if self._random.uniform(0, 1) < p_land:
                 new_color = Color.LAND
             else:
                 new_color = Color.SEA

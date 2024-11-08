@@ -1,27 +1,31 @@
-import typing
+from typing import Iterable, TextIO
 
 import svg
 
-from fractal.map import Color, Map, Tile
-from fractal.quadtree import Quadtree
+from map_generator.map import Color, Map, Tile
+from map_generator.quadtree import Quadtree
 
 _COLORS = {Color.SEA: "cyan", Color.LAND: "green"}
 _TILE_SIZE = 10
 
 
 def write_map_to_file(
-    map_: Map, fp: typing.TextIO, width: int, height: int, *, optimize: bool = False
+    map_: Map, fp: TextIO, width: int, height: int, *, optimize: bool = False
 ) -> None:
+    tiles: Iterable[Tile]
+
     if optimize:
         quadtree = Quadtree(map_)
-        tiles = quadtree.get_tiles()
+        tile_list: list[Tile] = quadtree.get_tiles()
 
         n_before = map_.get_tile_count()
-        n_after = len(tiles)
+        n_after = len(tile_list)
         percentage_saved = (n_before - n_after) / float(n_before)
         print(
             f"Quadtree reduced tile count from {n_before} to {n_after} (-{percentage_saved:.2%})"
         )
+
+        tiles = tile_list
     else:
         tiles = map_.get_tiles()
 
@@ -29,7 +33,7 @@ def write_map_to_file(
 
 
 def write_tiles_to_file(
-    tiles: list[Tile], fp: typing.TextIO, width: int, height: int
+    tiles: Iterable[Tile], fp: TextIO, width: int, height: int
 ) -> None:
     elements: list[svg.Rect] = []
 

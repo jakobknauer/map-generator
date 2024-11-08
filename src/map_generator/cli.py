@@ -1,6 +1,6 @@
-from fractal.io import write_map_to_file
-from fractal.map import Color, Map, Tile
-from fractal.strategy import Strategy
+from map_generator.io import write_map_to_file
+from map_generator.map import Color, Map, Tile
+from map_generator.strategy import Painter
 
 
 def main_cli():
@@ -8,7 +8,7 @@ def main_cli():
 
     map_ = Map()
 
-    strategy = Strategy(map_)
+    painter = Painter(map_)
 
     # Continent surrounded by sea
     # map_.add_tile(Tile(0, 0, Color.SEA))
@@ -60,7 +60,7 @@ def main_cli():
     for i in range(1, 1 + ITERATIONS):
         print(f"Iteration {i}")
         map_.split(2)
-        strategy.iterate()
+        painter.paint()
 
         with open(f"out/map_{i}_simplified.svg", "w") as fp:
             write_map_to_file(map_, fp, WIDTH * (2**i), HEIGHT * (2**i), optimize=True)
