@@ -4,6 +4,9 @@ version = "0.0.1"
 authors = [ { name = "Jakob Knauer" } ]
 dependencies = ["svg.py==1.4.3"]
 
+[project.optional-dependencies]
+dev = ["pylint"]
+
 [build-system]
 requires = ["setuptools>=69.0"]
 build-backend = "setuptools.build_meta"
