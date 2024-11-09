@@ -19,9 +19,7 @@ def write_map_to_file(map_: Map, fp: TextIO, *, optimize: bool = False) -> None:
         n_before = map_.get_tile_count()
         n_after = len(tile_list)
         percentage_saved = (n_before - n_after) / float(n_before)
-        print(
-            f"Quadtree reduced tile count from {n_before} to {n_after} (-{percentage_saved:.2%})"
-        )
+        print(f"Quadtree reduced tile count from {n_before} to {n_after} (-{percentage_saved:.2%})")
 
         tiles = tile_list
     else:
@@ -30,9 +28,7 @@ def write_map_to_file(map_: Map, fp: TextIO, *, optimize: bool = False) -> None:
     write_tiles_to_file(tiles, fp, width=map_.get_width(), height=map_.get_height())
 
 
-def write_tiles_to_file(
-    tiles: Iterable[Tile], fp: TextIO, *, width: int, height: int
-) -> None:
+def write_tiles_to_file(tiles: Iterable[Tile], fp: TextIO, *, width: int, height: int) -> None:
     elements: list[svg.Rect] = []
 
     for tile in tiles:
@@ -46,8 +42,6 @@ def write_tiles_to_file(
         )
         elements.append(rect)
 
-    canvas = svg.SVG(
-        width=width * _TILE_SIZE, height=height * _TILE_SIZE, elements=elements
-    )
+    canvas = svg.SVG(width=width * _TILE_SIZE, height=height * _TILE_SIZE, elements=elements)
 
     fp.write(str(canvas))

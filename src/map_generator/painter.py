@@ -34,9 +34,7 @@ class Painter:
             if len(neighbors) == 0:
                 land_proportion = 0.5
             else:
-                land_proportion = sum(
-                    1 for n in neighbors if n.color == Color.LAND
-                ) / float(len(neighbors))
+                land_proportion = sum(1 for n in neighbors if n.color == Color.LAND) / float(len(neighbors))
             p_land += (land_proportion - 0.5) * (1 - self._inertia)
 
             p_land = max(min_prob, min(p_land, max_prob))
@@ -46,8 +44,6 @@ class Painter:
             else:
                 new_color = Color.SEA
 
-            new_tiles[(tile.x, tile.y)] = Tile(
-                tile.x, tile.y, new_color, tile.width, tile.height
-            )
+            new_tiles[(tile.x, tile.y)] = Tile(tile.x, tile.y, new_color, tile.width, tile.height)
 
         map_.set_tiles(new_tiles)

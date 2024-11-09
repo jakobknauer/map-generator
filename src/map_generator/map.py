@@ -40,9 +40,7 @@ class Map:
 
     def split(self, n: int) -> None:
         self._tiles = {
-            (new_x := tile.x * n + x, new_y := tile.y * n + y): Tile(
-                x=new_x, y=new_y, color=tile.color
-            )
+            (new_x := tile.x * n + x, new_y := tile.y * n + y): Tile(x=new_x, y=new_y, color=tile.color)
             for tile in self._tiles.values()
             for x in range(n)
             for y in range(n)

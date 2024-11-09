@@ -4,9 +4,7 @@ from map_generator.map import Color, Map, Tile
 from map_generator.painter import Painter
 
 
-def generate_land_and_sea(
-    preset: str, num_iterations: int, output_callback: Callable[[int, Map], None]
-) -> Map:
+def generate_land_and_sea(preset: str, num_iterations: int, output_callback: Callable[[int, Map], None]) -> Map:
     map_ = _get_preset(preset)
     painter = Painter(inertia=0.6, islands_per_iteration=1.0, lakes_per_iteration=1.0)
 

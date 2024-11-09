@@ -49,12 +49,8 @@ class _Node:
         else:
             self._children = (
                 _Node(x, y, floor(width / 2), floor(height / 2), map_),
-                _Node(
-                    x + floor(width / 2), y, ceil(width / 2), floor(height / 2), map_
-                ),
-                _Node(
-                    x, y + floor(height / 2), floor(width / 2), ceil(height / 2), map_
-                ),
+                _Node(x + floor(width / 2), y, ceil(width / 2), floor(height / 2), map_),
+                _Node(x, y + floor(height / 2), floor(width / 2), ceil(height / 2), map_),
                 _Node(
                     x + floor(width / 2),
                     y + floor(height / 2),
@@ -66,9 +62,7 @@ class _Node:
 
     def generate_tiles(self, output: list[Tile]) -> None:
         if self._uniform_color:
-            tile = Tile(
-                self._x, self._y, self._uniform_color, self._width, self._height
-            )
+            tile = Tile(self._x, self._y, self._uniform_color, self._width, self._height)
             output.append(tile)
         else:
             for child in self._children:

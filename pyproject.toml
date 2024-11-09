@@ -5,7 +5,7 @@ authors = [ { name = "Jakob Knauer" } ]
 dependencies = ["svg.py==1.4.3"]
 
 [project.optional-dependencies]
-dev = ["pylint"]
+dev = ["pylint", "black"]
 
 [build-system]
 requires = ["setuptools>=69.0"]
@@ -13,3 +13,6 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 mapgen = "map_generator.cli:main_cli"
+
+[tool.black]
+line-length = 120
