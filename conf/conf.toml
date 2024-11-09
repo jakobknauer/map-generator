@@ -1,0 +1,11 @@
+[output]
+output_dir = "out"
+output_prefix = "map_"
+
+[generation]
+preset = "island_and_shore"
+num_iterations = 7
+
+inertia = 0.5
+islands_per_iteration = 5.0
+lakes_per_iteration = 1.0

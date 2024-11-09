@@ -1,15 +1,20 @@
 from typing import Callable
 
+from map_generator.config import GenerationConfig
 from map_generator.map import Color, Map, Tile
 from map_generator.painter import Painter
 
 
-def generate_land_and_sea(preset: str, num_iterations: int, output_callback: Callable[[int, Map], None]) -> Map:
-    map_ = _get_preset(preset)
-    painter = Painter(inertia=0.6, islands_per_iteration=1.0, lakes_per_iteration=1.0)
+def generate_land_and_sea(config: GenerationConfig, output_callback: Callable[[int, Map], None]) -> Map:
+    map_ = _get_preset(config.preset)
+    painter = Painter(
+        inertia=config.inertia,
+        islands_per_iteration=config.islands_per_iteration,
+        lakes_per_iteration=config.lakes_per_iteration,
+    )
 
     output_callback(0, map_)
-    for iteration in range(1, 1 + num_iterations):
+    for iteration in range(1, 1 + config.num_iterations):
         print(f"Iteration {iteration}")
 
         map_.split(2)
