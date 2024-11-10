@@ -1,11 +1,11 @@
 [output]
-output_dir = "out"
-output_prefix = "map_"
+output_dir = "out"              # Absolute or relative output directory
+output_prefix = "map_"          # Prefix for name of the generated svg files
 
 [generation]
-preset = "island_and_shore"
-num_iterations = 7
+preset = "island_and_shore"     # The preset to use
+num_iterations = 7              # The number of "split and paint" iterations
 
-inertia = 0.5
-islands_per_iteration = 5.0
-lakes_per_iteration = 1.0
+inertia = 0.5                   # How strongly the current color of a tile influences the next color of that tile. Must be in [0,1].
+islands_per_iteration = 5.0     # Higher number favor creation of random islands. Must be >= 0.
+lakes_per_iteration = 1.0       # Higher number favor creation of random lakes. Must be >= 0.
