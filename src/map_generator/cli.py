@@ -9,11 +9,11 @@ from map_generator.map import Map
 
 def main_cli() -> None:
     config = Config.from_toml_file(Path(sys.argv[1]))
-    config.output.output_dir.mkdir(parents=True, exist_ok=True)
+    config.output.directory.mkdir(parents=True, exist_ok=True)
 
     def output_callback(iteration: int, map_: Map) -> None:
-        output_file = config.output.output_dir / f"{config.output.output_prefix}{iteration}.svg"
+        output_file = config.output.directory / f"{config.output.file_prefix}{iteration}.svg"
         with open(output_file, "w") as fp:
-            write_map_to_file(map_, fp, optimize=True)
+            write_map_to_file(map_, fp, optimize=config.output.optimize, visible_borders=config.output.visible_borders)
 
     generate_land_and_sea(config.generation, output_callback)

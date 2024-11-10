@@ -7,8 +7,10 @@ from typing import Any
 
 @dataclass
 class OutputConfig:
-    output_dir: Path
-    output_prefix: str
+    directory: Path
+    file_prefix: str
+    optimize: bool
+    visible_borders: bool
 
 
 @dataclass
@@ -28,8 +30,10 @@ class Config:
     @staticmethod
     def from_dict(data: dict[str, Any]) -> "Config":
         output = OutputConfig(
-            output_dir=Path(data["output"]["output_dir"]),
-            output_prefix=str(data["output"]["output_prefix"]),
+            directory=Path(data["output"]["directory"]),
+            file_prefix=str(data["output"]["file_prefix"]),
+            optimize=bool(data["output"]["optimize"]),
+            visible_borders=bool(data["output"]["visible_borders"]),
         )
 
         generation = GenerationConfig(

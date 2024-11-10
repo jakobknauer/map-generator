@@ -1,6 +1,9 @@
 [output]
-output_dir = "out"              # Absolute or relative output directory
-output_prefix = "map_"          # Prefix for name of the generated svg files
+directory = "out"               # Absolute or relative output directory
+file_prefix = "map_"            # Prefix for name of the generated svg files
+optimize = true                 # Use quadtree to reduce file size (recommended value: true)
+visible_borders = false         # Draw borders of tiles in output (helpful for visualizing quadtree optimization)
+
 
 [generation]
 preset = "island_and_shore"     # The preset to use
