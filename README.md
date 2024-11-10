@@ -38,6 +38,26 @@ pipx install .
 
 # Examples
 
+See [the examples folders](examples) for the iterative refinement of a map.
+
+The following config was used for generating these files:
+
+```toml
+[output]
+directory = "examples"
+file_prefix = "map_"
+optimize = true
+visible_borders = false
+
+
+[generation]
+preset = "island_and_shore"
+num_iterations = 7
+
+inertia = 0.5
+islands_per_iteration = 5.0
+lakes_per_iteration = 1.0
+```
 
 
 # Algorithm and Configuration
