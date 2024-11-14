@@ -8,6 +8,10 @@ from map_generator.map import Map
 
 
 def main_cli() -> None:
+    if len(sys.argv):
+        print("Usage: mapgen <config>")
+        sys.exit(1)
+
     config = Config.from_toml_file(Path(sys.argv[1]))
     config.output.directory.mkdir(parents=True, exist_ok=True)
 
