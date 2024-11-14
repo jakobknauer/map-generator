@@ -55,6 +55,10 @@ class Map:
             self._find_tile(x + 1, y),
             self._find_tile(x, y - 1),
             self._find_tile(x, y + 1),
+            self._find_tile(x - 1, y - 1),
+            self._find_tile(x + 1, y - 1),
+            self._find_tile(x - 1, y - 1),
+            self._find_tile(x + 1, y + 1),
         )
         return [c for c in candidates if c]
 
