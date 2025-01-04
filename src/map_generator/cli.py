@@ -8,7 +8,7 @@ from map_generator.map import Map
 
 
 def main_cli() -> None:
-    if len(sys.argv):
+    if len(sys.argv) != 2:
         print("Usage: mapgen <config>")
         sys.exit(1)
 
